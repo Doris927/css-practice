@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="../reset.css" type="text/css" />
+	<style type="text/css">
+		body{
+			font-size: 12px;
+			height: 100%;
+			min-height: 1000px;
+		}
+		header{
+			position:absolute;
+			display: block;
+			min-width: 1000px;
+			width: 100%;
+			z-index: 99;
+			height: 32px;
+			border-bottom: 1px solid #ebebeb;
+		}
+		.left-menu-wrapper{
+			position: absolute;
+			display: block;
+			left:0;
+			top:0;
+			z-index: 100;
+			height: 32px;
+			padding-right: 15px;
+			color: #555;
+		}
+		.weather-wrapper{
+			float: left;
+			font-size: 12px;
+			height: 20px;
+			line-height: 19px;
+			text-align: left;
+			margin: 7px 15px 0 15px;
+		}
+		.weather-icon{
+			display: inline-block;
+			width: 12px;
+			height: 20px;
+			line-height: 20px;
+			margin-right: 5px;
+			background:url("./imgs/location-icon.png") no-repeat 0 0;
+			vertical-align: bottom
+		}
+		.weather-text{
+			display: inline-block;
+			height: 20px;
+			line-height: 19px;
+			vertical-align: bottom
+		}
+		.weather-setting{
+			display: inline-block;
+			height: 20px;
+			line-height: 19px;
+			vertical-align: bottom;
+			text-decoration: underline;
+			cursor: pointer;
+			color: #0079f5;
+		}
+		.icons-wrapper{
+			float: left;
+			display: block;
+		}
+		.icons-item{
+			height: 33px;
+			line-height: 33px;
+			margin-right: 19px;
+			color:#555;
+			text-decoration: underline;
+			outline: none;
+			display: inline-block;
+			text-shadow: none;
+		}
+		.right-menu-wrapper {
+			position: absolute;
+			top:0px;
+			right: 0px;
+			width: 590px;
+			font-size: 13px;
+			text-align: right;
+			color: #999;
+			display: block;
+		}
+		.menu-item{
+			height:32px;
+			line-height: 32px;
+			margin-left: 19px;
+			color:#555;
+			text-decoration: underline;
+			outline:none;
+			display: inline-block;
+			text-shadow: none;
+		}
+		.menu-other{
+			font-weight: bold;
+		}
+		.menu-btn{
+			width: 86px;
+			color: white;
+			background: #398bfb;
+			text-align: center;
+			border-bottom: 1px solid #398bfb;
+			text-decoration: none;
+		}
+
+		.top-section{
+			position: relative;
+			height: 38.2%;
+			min-height: 293px;
+			width: 641px;
+			margin: 0 auto;
+		}
+		.logo-wrapper{
+			height: 61.8%;
+			min-height: 181px;
+			position: relative;
+			z-index: 0;
+			text-align: center;
+		}
+		.logo-wrapper img{
+			position: absolute;
+			bottom: 10px;
+			left:50%;
+			margin-left: -135px;
+		}
+		.search-form-wrapper{
+			display: inline-block;
+			font-size: 0px;
+		}
+		.search-input{
+			display: inline-block;
+			margin-right: 0px;
+		}
+		.search-input>input{
+			width: 521px;
+			height: 20px;
+			padding: 9px 7px;
+			font-size: 16px;
+			border: 1px solid #ccc;
+			border-right: 0;
+			margin-right: 0;
+			vertical-align: top;
+		}
+		.search-btn-wrapper {
+			display: inline-block;
+			vertical-align: top;
+			width: 102px;
+			height: 38px;
+			border: 1px solid #38f;
+			border-bottom: 1px solid #2e7ae5;
+			background-color: #38f;
+		}
+		.search-btn-wrapper input{
+			cursor: pointer;
+			width: 102px;
+			height: 38px;
+			line-height: 38px;
+			padding: 0;
+			border: 0;
+			background: none;
+			background-color: #38f;
+			font-size: 16px;
+			color: white;
+			box-shadow: none;
+			font-weight: normal;
+		}
+		.bottom-wrapper {
+			width: 895px;
+			margin: 0 auto;
+			position: relative;
+		}
+		.card-menu-wrapper {
+			z-index: 11111;
+			width: 893px;
+			margin: 0 auto;
+			text-align: left;
+			font-size: 14px;
+			border: 1px solid #e9e9e9;
+			border-bottom: 0;
+			height: 39px;
+			line-height: 39px;
+		}
+		.card-menu-mine {
+			float: left;
+			background-color: #9a9da2;
+			color: #fff;
+			font-weight: bold;
+			display: inline-block;
+			width: 124px;
+		}
+		.mine-icon {
+			display: inline-block;
+			margin: 11px 0 0 20px;
+			width: 20px;
+			height: 18px;
+			background: url("./imgs/icons.png") no-repeat -144px 0px;
+			vertical-align: top;
+		}
+		.mine-text {
+			display: inline-block;
+		}
+		.card-menus-others {
+			float: left;
+			display: flex;
+			flex-flow: row wrap;
+			align-items: stretch;
+			width: 719px;
+		}
+		.card-menus {
+			display: inline-block;
+			zoom: 1;
+			float: left;
+		}
+		.card-menus .card-menu-item{
+			color: #333;
+			width: 80px;
+			height: 39px;
+			line-height: 39px;
+			display: inline-block;
+			zoom: 1;
+			text-align: center;
+			cursor: pointer;
+			margin-top: 0px;
+		}
+		.card-menu-space {
+			flex: auto;
+			height: 38px;
+			display: inline-block;
+		}
+		.card-menu-setting {
+			height: 39px;
+			float: right;
+			padding: 0 21px 0 11px;
+			cursor: pointer;
+		}
+		.card-menu-setting .menu-icon {
+			width: 100%;
+			width: 18px;
+			height: 18px;
+			margin-top: 11px;
+			overflow: hidden;
+			background: url("./imgs/icons.png") no-repeat -121px -49px;
+		}
+		.card-contents-wrapper {
+			width: 893px;
+			min-height: 363px;
+			border: 1px solid #e9e9e9;
+		}
+		.content-mine{
+			width: 844px;
+			margin: 0 auto;
+		}
+		.content-mine-top {
+			margin-top: 13px;
+			margin-bottom: 10px;
+		}
+		.title-wrapper{
+			height: 30px;
+			line-height: 30px;
+			width: 100%;
+			text-align: left;
+			font-size: 14px;
+			padding-bottom: 6px;
+		}
+		.mine-title .mine-title-icon {
+			width:10px;
+			height: 10px;
+			margin-right: 6px;
+			font-size: 0;
+			position: relative;
+			display: inline-block;
+		}
+		.mine-title .mine-title-icon em {
+			position: absolute;
+			top: 3px;
+			left: 0px;
+			height: 0;
+			width: 0;
+			font-size: 0;
+			border: 5px dashed transparent;
+			border-top: 5px solid #666;
+		}
+		.mine-title .mine-title-text {
+			font-weight: bold;
+		}
+
+		.links-wrapper {
+			text-align: left;
+			position: relative;
+			width: 850px;
+			border-top: 1px solid #f0f0f0;
+			padding-bottom: 15px;
+			font-size: 14px;
+		}
+		.link-item {
+			display: inline-block;
+			width: 158px;
+			height: 41px;
+			line-height: 41px;
+			cursor: pointer;
+		}
+		.link-item a {
+			display: block;
+		}
+		.link-item img{
+			margin-left: 15px;
+			margin-top: 12px;
+			width: 16px;
+			height: 16px;
+			vertical-align: top;
+		}
+		.link-title {
+			height: 41px;
+			line-height: 41px;
+			color: #333;
+			text-decoration: none;
+			margin-left: 5px;
+		}
+		.content-recommend{
+			position: relative;
+			width: 843px;
+			min-height: 318px;
+			padding: 0 25px 0 25px;
+			overflow: hidden;
+		}
+		.keywords-wrapper{
+			position: absolute;
+			top:0px;
+			right: 5px;
+			width: 300px;
+			margin-top: 20px;
+			text-align: left;
+		}
+		.keywords-title-wrapper{
+			height: 30px;
+			width: 270px;
+		}
+		.keywords-title-wrapper .title-text {
+			float: left;
+			height: 22px;
+			width: 94px;
+			padding-top: 3px;
+			font-size: 14px;
+			font-weight: bold;
+		}
+		.keywords-title-wrapper .title-text a {
+			text-decoration: none;
+			color: #333;
+		}
+		.keywords-refresh {
+			display: block;
+			float: right;
+			height: 22px;
+			padding-top: 3px;
+			width: 60px;
+			cursor: pointer;
+		}
+		.keywords-refresh .keywords-refresh-icon{
+			width: 20px;
+			height: 16px;
+			display: inline-block;
+			background: url("./imgs/news-icons.png") no-repeat -23px -25px;
+			vertical-align: bottom;
+		}
+		.keywords-refresh .keywrods-refresh-text{
+			display: inline-block;
+			font-size: 13px;
+			width: 40px;
+			text-align: center;
+			white-space: nowrap;
+			vertical-align: top;
+		}
+		.keywords-content {
+			position: relative;
+			list-style: disc;
+		}
+		.keywords-item {
+			display: block;
+			width: 130px;
+			margin-right: 3px;
+			display: inline-block;
+			list-style: square;
+			font-size: 14px;
+			margin: 10px 0;
+		}
+		.keywords-item a {
+			text-decoration: none;
+			vertical-align: center;
+			zoom: 1;
+		}
+		.content-recommend .tips{
+			width: 100%;
+			height: 38px;
+			text-align: left;
+			vertical-align: middle;
+		}
+		.left-line, .right-line{
+			height: 0;
+			width: 172px;
+			font-size: 0;
+			border-bottom: 1px solid #e2e2e2;
+			margin-top: 21px;
+			display: inline-block;
+		}
+		.tips-content {
+			display: inline-block;
+			width: 187px;
+			padding-top: 21px;
+			margin: 0 auto;
+		}
+		.tips-icon {
+			display: inline-block;
+			height: 14px;
+			width: 12px;
+			margin: 0 6px 0 6px;
+			background: url("./imgs/news-icons.png") no-repeat -45px -1px;
+			vertical-align: middle;
+		}
+		.tips-text {
+			font-size: 13px;
+			color: rgba(0,0,0,0.4);
+			vertical-align: middle;
+		}
+		.news-list-wrapper {
+			float: left;
+			text-align: left;
+			width: 538px;
+		}
+		.news-item{
+			min-height: 197px;
+			overflow: visible;
+			border-top: 1px solid #f0f0f0;
+			position: relative;
+		}
+		.news-item h2{
+			padding-top: 20px;
+			padding-bottom: 12px;
+			font-size: 18px ;
+			font-family: arial;
+		}
+		.news-imgs {
+			font-size: 0px;
+		}
+		.news-imgs li{
+			display: inline-block;
+			width: 179px;
+		}
+		.news-imgs img{
+			height: 119px;
+			width: 178px;
+			border: 0;
+		}
+		.news-info-wrapper{
+			color: rgba(0,0,0,0.4);
+			height: 15px;
+			line-height: 15px;
+			font-size: 13px;
+			padding-top: 11px;
+			padding-bottom: 19px;
+		}
+		.src-net {
+			margin-right: 6px;
+		}
+		.src-net a {
+			text-decoration: none;
+			color: rgba(0,0,0,0.4);
+		}
+		.src-time {
+			vertical-align: -1px;
+			margin-right: 6px;
+		}
+		.hot-point {
+			background-clip: padding-box;
+			color: #f13f40;
+    		border: 1px solid #efb9b9;
+    		font-size: 12px;
+    		line-height: 12px;
+    		padding: 0 2px;
+    		border-radius: 3px;
+		}
+		.news-item:first-child{
+			border-top: 0;
+		}
+	</style>
+	<title>Document</title>
+</head>
+<body>
+	<header>
+		<div class="left-menu-wrapper">
+			<div class="weather-wrapper">
+				<span class="weather-icon"></span><span class="weather-text">查看天气信息，</span><span class="weather-setting">设置城市</span>
+			</div>
+			<div class="icons-wrapper">
+				<a class="icons-item">换肤</a>
+				<a class="icons-item">消息</a>
+			</div>
+		</div>
+		<div class="right-menu-wrapper">
+			<a href="http://news.baidu.com" target="_blank" class="menu-item menu-other">新闻</a>
+			<a href="http://news.baidu.com" target="_blank" class="menu-item menu-other">hao123</a>
+			<a href="http://news.baidu.com" target="_blank" class="menu-item menu-other">地图</a>
+			<a href="http://news.baidu.com" target="_blank" class="menu-item menu-other">视频</a>
+			<a href="http://news.baidu.com" target="_blank" class="menu-item menu-other">贴吧</a>
+			<a href="http://news.baidu.com" target="_blank" class="menu-item menu-other">学术</a>
+			<a href="http://news.baidu.com" target="_blank" class="menu-item">Tammy19931</a>
+			<a href="http://news.baidu.com" target="_blank" class="menu-item">设置</a>
+			<a href="http://news.baidu.com" target="_blank" class="menu-item menu-btn">更多产品</a>
+		</div>
+	</header>
+	<section class="top-section">
+		<div class="logo-wrapper">
+			<img src="https://www.baidu.com/img/bd_logo1.png?where=super" width="270px" height="129px"/>
+		</div>
+		<form class="search-form-wrapper">
+			<span class="search-input"><input/></span>
+			<span class="search-btn-wrapper"><input type="button" value="百度一下"/></span>
+		</form>
+	</section>
+	<section class="bottom-wrapper">
+		<div class="card-wrapper">
+			<div class="card-menu-wrapper">
+				<span class="card-menu-mine">
+					<div class="mine-icon"></div>
+					<div class="mine-text">我的关注</div>
+				</span>
+				<div class="card-menus-others">
+					<div class="card-menus"><span class="card-menu-item">推荐</span><span class="menu-item">导航</span>
+					</div>
+					<div class="card-menu-space"></div>
+				</div>
+				<span class="card-menu-setting">
+					<div class="menu-icon"></div>
+				</span>
+			</div>
+		    <div class="card-contents-wrapper">
+				<div class="content-mine" style="display:none;">
+					<div class="content-mine-top">
+						<div class="title-wrapper">
+							<span class="mine-title">
+								<div class="mine-title-icon">
+									<em></em>
+								</div>
+								<span class="mine-title-text">我的导航</span>
+								<span class="mine-title-num">(10)</span>
+							</span>
+						</div>
+						<div class="links-wrapper">
+							<div class="link-item">
+								<a class="link-title" href="#" target="_blank">
+									<img src="https://ss2.bdstatic.com/lfoZeXSm1A5BphGlnYG/icon/95486.png" alt="百度贴吧" class="link-icon"/>
+									<span class="link-title">百度贴吧</span>
+								</a>
+							</div>
+							<div class="link-item">
+									<a class="link-title" href="#" target="_blank">
+										<img src="https://ss2.bdstatic.com/lfoZeXSm1A5BphGlnYG/icon/95486.png" alt="百度贴吧" class="link-icon"/>
+										<span class="link-title">百度贴吧</span>
+									</a>
+							</div>
+							<div class="link-item">
+									<a class="link-title" href="#" target="_blank">
+										<img src="https://ss2.bdstatic.com/lfoZeXSm1A5BphGlnYG/icon/95486.png" alt="百度贴吧" class="link-icon"/>
+										<span class="link-title">百度贴吧</span>
+									</a>
+							</div>
+							<div class="link-item">
+									<a class="link-title" href="#" target="_blank">
+										<img src="https://ss2.bdstatic.com/lfoZeXSm1A5BphGlnYG/icon/95486.png" alt="百度贴吧" class="link-icon"/>
+										<span class="link-title">百度贴吧</span>
+									</a>
+							</div>
+							<div class="link-item">
+									<a class="link-title" href="#" target="_blank">
+										<img src="https://ss2.bdstatic.com/lfoZeXSm1A5BphGlnYG/icon/95486.png" alt="百度贴吧" class="link-icon"/>
+										<span class="link-title">百度贴吧</span>
+									</a>
+							</div>
+							<div class="link-item">
+									<a class="link-title" href="#" target="_blank">
+										<img src="https://ss2.bdstatic.com/lfoZeXSm1A5BphGlnYG/icon/95486.png" alt="百度贴吧" class="link-icon"/>
+										<span class="link-title">百度贴吧</span>
+									</a>
+							</div>
+						</div>
+					</div>
+					<div class="content-mine-bottom"></div>
+				</div>
+				<div class="content-recommend">
+					<div class="keywords-wrapper">
+						<div class="keywords-title-wrapper">
+							<div class="title-text">
+								<a href="#" target="_blank">实时热点</a>
+							</div>
+							<a class="keywords-refresh">
+								<span class="keywords-refresh-icon"></span><span class="keywrods-refresh-text">换一换</span>
+							</a>
+							<ul class="keywords-content">
+								<li class="keywords-item">
+									<a>熊孩子毒死小龙虾</a>
+								</li>
+								<li class="keywords-item">
+										<a>熊孩子毒死小龙虾</a>
+								</li>
+								<li class="keywords-item">
+										<a>熊孩子毒死小龙虾</a>
+								</li>
+								<li class="keywords-item">
+										<a>熊孩子毒死小龙虾</a>
+									</li>
+								<li class="keywords-item">
+											<a>熊孩子毒死小龙虾</a>
+										</li>
+								<li class="keywords-item">
+									<a>熊孩子毒死小龙虾</a>
+								</li>
+								<li class="keywords-item">
+									<a>熊孩子毒死小龙虾</a>
+								</li>	
+								<li class="keywords-item">
+									<a>熊孩子毒死小龙虾</a>
+								</li>	
+							</ul>
+						</div>
+
+					</div>
+					<div class="tips">
+						<div class="left-line"></div>
+						<div class="tips-content">
+							<div class="tips-icon"></div><span class="tips-text">以下信息根据你的兴趣推荐</span>
+						</div>
+						<div class="right-line"></div>
+					</div>
+					<div class="news-list-wrapper">
+						<div class="news-item">
+							<h2>中方将理性对待中美经贸摩擦——刘鹤接受中国媒体采访实录</h2>
+							<div class="news-pics">
+								<ul class="news-imgs">
+									<li>
+										<img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3013333442,1332677656&fm=173&app=49&f=JPEG?w=218&h=146&s=7843089C40300F8EE202E7840300F09F"/>
+									</li>
+									<li>
+										<img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3013333442,1332677656&fm=173&app=49&f=JPEG?w=218&h=146&s=7843089C40300F8EE202E7840300F09F"/>
+									</li>
+									<li>
+										<img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3013333442,1332677656&fm=173&app=49&f=JPEG?w=218&h=146&s=7843089C40300F8EE202E7840300F09F"/>
+									</li>
+								</ul>
+							</div>
+							<div class="news-info-wrapper">
+								<span class="src-net">
+									<a href="http://baijiahao.baidu.com" target="_blank" data-src="1" data-click="LOG_LINK">中国新闻网</a>
+								</span>
+								<span class="src-time">05-11 23:07</span>
+								<span class="hot-point">热点</span>
+							</div>
+						</div>
+						<div class="news-item">
+							<h2>中方将理性对待中美经贸摩擦——刘鹤接受中国媒体采访实录</h2>
+							<div class="news-pics">
+								<ul class="news-imgs">
+									<li>
+										<img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3013333442,1332677656&fm=173&app=49&f=JPEG?w=218&h=146&s=7843089C40300F8EE202E7840300F09F"/>
+									</li>
+									<li>
+										<img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3013333442,1332677656&fm=173&app=49&f=JPEG?w=218&h=146&s=7843089C40300F8EE202E7840300F09F"/>
+									</li>
+									<li>
+										<img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3013333442,1332677656&fm=173&app=49&f=JPEG?w=218&h=146&s=7843089C40300F8EE202E7840300F09F"/>
+									</li>
+								</ul>
+							</div>
+							<div class="news-info-wrapper">
+								<span class="src-net">
+									<a href="http://baijiahao.baidu.com" target="_blank" data-src="1" data-click="LOG_LINK">中国新闻网</a>
+								</span>
+								<span class="src-time">05-11 23:07</span>
+								<span class="hot-point">热点</span>
+							</div>
+						</div>
+						<div class="news-item">
+							<h2>中方将理性对待中美经贸摩擦——刘鹤接受中国媒体采访实录</h2>
+							<div class="news-pics">
+								<ul class="news-imgs">
+									<li>
+										<img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3013333442,1332677656&fm=173&app=49&f=JPEG?w=218&h=146&s=7843089C40300F8EE202E7840300F09F"/>
+									</li>
+									<li>
+										<img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3013333442,1332677656&fm=173&app=49&f=JPEG?w=218&h=146&s=7843089C40300F8EE202E7840300F09F"/>
+									</li>
+									<li>
+										<img src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=3013333442,1332677656&fm=173&app=49&f=JPEG?w=218&h=146&s=7843089C40300F8EE202E7840300F09F"/>
+									</li>
+								</ul>
+							</div>
+							<div class="news-info-wrapper">
+								<span class="src-net">
+									<a href="http://baijiahao.baidu.com" target="_blank" data-src="1" data-click="LOG_LINK">中国新闻网</a>
+								</span>
+								<span class="src-time">05-11 23:07</span>
+								<span class="hot-point">热点</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<footer>
+	</footer>
+</body>
+</html>
